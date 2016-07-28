@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<!-- CHAPTER 3: CREATING A REACT COMPONENT <-done -->
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -9,17 +12,21 @@
   <body>
     <div id="react-container"></div>
     <script type="text/babel">
-      var HelloWorld = React.createClass({
+      var MyComponent = React.createClass({
         render: function() {
           return <div>
-            <h1>Hello React</h1>
-            <p>Let&#39;s write some code</p>
-          </div>
+            <h1>{this.props.text}</h1>
+            <p>{this.props.children}</p>
+          </div>;
         }
       });
       React.render(<div>
-                    <HelloWorld />
-                    <HelloWorld />
+                    <MyComponent text="Hello React">
+                      This is a child property.
+                    </MyComponent>
+                    <MyComponent text="Props are cool">
+                      This is another child property.
+                    </MyComponent>
                    </div>, document.getElementById('react-container')
                   );
     </script>
