@@ -1,4 +1,4 @@
-// 4.4 is NEXT
+// 4.5 is NEXT
 
 var Note = React.createClass({
   getInitialState: function() {
@@ -8,12 +8,11 @@ var Note = React.createClass({
     this.setState({editing: true});
   },
   save: function() {
-    var val = this.refs.newText.getDOMNode().value;
-    alert("New note:" + val);
+    this.props.onChange(this.refs.newText.getDOMNode().value, this.props.index);
     this.setState({editing: false});
   },
   remove: function() {
-    alert('removing note');
+    this.props.onRemove(this.props.index);
   },
   renderDisplay: function() {
     return (
@@ -57,22 +56,34 @@ var Board = React.createClass({
   getInitialState: function() {
     return {
       // object with key of notes
-      notes: [
-        'Clean toilet',
-        'Daily bowel movement',
-        'Feed Mr. Bojangles',
-        'Weave baskets'
-      ]
+      notes: []
     };
+  },
+  add: function(text) {
+    var arr = this.state.notes;
+    arr.push(text);
+    this.setState({notes:arr});
+  },
+  update: function(newText, i) {
+    var arr = this.state.notes;
+    arr[i] = newText;
+    this.setState({notes:arr});
+  },
+  remove: function(i) {
+    var arr = this.state.notes;
+    arr.splice(i, 1);
+    this.setState({notes:arr});
+  },
+  eachNote: function(note, i) {
+    return (
+      <Note key={i} index={i} onChange={this.update} onRemove={this.remove}>{note}</Note>
+    );
   },
   render: function() {
     return (
       <div className="board">
-        {this.state.notes.map(function(note, i){
-          return (
-            <Note key={i}>{note}</Note>
-          );
-        })}
+        {this.state.notes.map(this.eachNote)}
+        <button onClick={this.add.bind(null, "New Note")} className="btn btn-sm btn-success glyphicon glyphicon-plus" />
       </div>
     );
   }
