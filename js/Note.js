@@ -1,5 +1,3 @@
-// Chapter 5 is next
-
 var Note = React.createClass({
   getInitialState: function() {
     return {editing: false};
@@ -10,6 +8,9 @@ var Note = React.createClass({
       top: this.randomBetween(0, window.innerHeight -150) + 'px',
       transform: 'rotate(' + this.randomBetween(-15, 15) + 'deg)'
     };
+  },
+  componentDidMount: function() {
+    $(this.getDOMNode()).draggable();
   },
   randomBetween: function(min, max) {
     return (min + Math.ceil(Math.random() * max));
